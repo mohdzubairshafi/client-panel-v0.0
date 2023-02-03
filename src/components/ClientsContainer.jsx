@@ -7,7 +7,7 @@ import { Box } from "@mui/material";
 
 export default function ClientsContainer() {
   const { ClientsData } = useContext(ClientContext);
-  function paginator(items, current_page, per_page_items) {
+  const paginator = (items, current_page, per_page_items) => {
     let page = current_page || 1,
       per_page = per_page_items,
       offset = (page - 1) * per_page,
@@ -23,13 +23,13 @@ export default function ClientsContainer() {
       total_pages: total_pages,
       data: paginatedItems,
     };
-  }
+  };
   const count = Math.ceil(ClientsData.length / 3);
   const [page, setPage] = useState(1);
   const handleChange = (event, value) => {
     setPage(paginator(ClientsData, value, 3).page);
   };
-
+  const customdata = paginator(ClientsData, page, 3).data;
   return (
     <Box>
       <Box
@@ -46,7 +46,7 @@ export default function ClientsContainer() {
             p: 2,
           }}
         >
-          {paginator(ClientsData, page, 3).data.map((value, index) => {
+          {customdata.map((value, index) => {
             return <Client Details={value} page={page} key={index} />;
           })}
         </Box>
